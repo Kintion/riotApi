@@ -8,6 +8,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,12 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
-@RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(Constants.BASE_URL)
 public class RiotApiController {
 
 
   private final RiotApiInputPort riotApiInputPort;
+
+  public RiotApiController(RiotApiInputPort riotApiInputPort){
+    this.riotApiInputPort = riotApiInputPort;
+  }
 
 
   @GetMapping(path = "account/{summonersName}", produces = MediaType.APPLICATION_JSON_VALUE)

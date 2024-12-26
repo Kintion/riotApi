@@ -17,7 +17,6 @@ import java.util.Map;
 
 
 @Service
-@RequiredArgsConstructor
 public class RiotApiService implements RiotApiInputPort {
 
   @Value("${riot-api.baseUrl}")
@@ -30,6 +29,12 @@ public class RiotApiService implements RiotApiInputPort {
 
 
   private final RiotApiOutputPort riotApiOutputPort;
+
+  public RiotApiService(CustomObjectMapper mapper, RiotApiOutputPort riotApiOutputPort) {
+    this.mapper = mapper;
+    this.riotApiOutputPort = riotApiOutputPort;
+  }
+
 
   @Cacheable(value =Constants.RIOT_CACHE_LONG , key = Constants.ACCOUNT_CACHE)
   @Override
@@ -98,7 +103,7 @@ public class RiotApiService implements RiotApiInputPort {
   public List<MatchDto> getMatchesBySummonerName(final String summonerName, int start) {
     AccountDto cuenta = getAccount(summonerName);
 
-    List<String> partidasString = getMatches(cuenta.getPuuid(), start, 10);
+    List<String> partidasString = getMatches(cuenta.getPuuid(), start, 25);
 
     List<MatchDto> partidas = new ArrayList<MatchDto>();
 
